@@ -59,7 +59,7 @@ void AjoutExperience()
 void AjoutDiplome()
 {
 	int numE;Etudiant *A;string r;
-	cout << endl << "Menu principale > Gérer etudiant > Ajout diplome" << endl;
+	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout diplome" << endl;
 	cout << "Numero de l'étudiant pour l'ajout du diplome" << endl;
 	while (true)
 	{
@@ -74,17 +74,63 @@ void AjoutDiplome()
 	cin >> r;
 
 	r += ",";
-	string car[4];
+	string infos[4];
 	for(int i = 0; i < 4 ; i++)
 	{
 		int pos = r.find(",");
-		car[i] = r.substr(0, pos);
+		infos[i] = r.substr(0, pos);
 		r.erase(0, pos + 1);
 	}
-	int code = atoi(car[0].c_str());
+	int code = atoi(infos[0].c_str());
 	A = (Etudiant::searchByNum(numE));
-	new Diplome(code, car[1], car[2], car[3], A);
+	new Diplome(code, infos[1], infos[2], infos[3], A);
 	cout << "Diplome ajouté avec succès" << endl;
+}
+
+void ModifierEtudiant()
+{
+	cout << "Saisir le numero de l'étudiant" << endl;
+
+	int numeroEtudiant;
+	cin >> numeroEtudiant;
+	if (!Etudiant::existe(numeroEtudiant))
+	{
+		cout << "Numero etudiant invalide" << endl;
+		return;
+	}
+
+
+	int reponse = 0;
+	string a;
+	while (true)
+	{
+
+		cout << endl << "Menu principale > Gerer etudiant > Modifier etudiant" << endl;
+		cout << "1. Ajouter diplome" << endl;
+		cout << "2. Ajouter experience" << endl;
+		cout << "3. Retour" << endl;
+		cout << "Choisir une option: ";
+
+		do {
+			cin >> reponse;
+		}
+		while (reponse < 1 || reponse > 3);
+		switch (reponse)
+		{
+			case 1:
+				AjoutDiplome();
+				break;
+
+			case 2:
+				AjoutExperience();
+				break;
+
+			default:
+				cout << endl;
+				return;
+		}
+
+	}
 }
 
 void AjoutEtudiant()
@@ -161,15 +207,14 @@ void GererEtudiant()
 
 		cout << endl << "Menu principale > Gerer etudiant" << endl;
 		cout << "1. Ajouter etudiant" << endl;
-		cout << "2. Ajouter diplome" << endl;
-		cout << "3. Ajouter experience" << endl;
-		cout << "4. Retour" << endl;
+		cout << "2. Modifier etudiant" << endl;
+		cout << "3. Retour" << endl;
 		cout << "Choisir une option: ";
 
 		do {
 			cin >> reponse;
 		}
-		while (reponse < 1 || reponse > 4);
+		while (reponse < 1 || reponse > 3);
 		switch (reponse)
 		{
 			case 1:
@@ -177,11 +222,7 @@ void GererEtudiant()
 				break;
 
 			case 2:
-				AjoutDiplome();
-				break;
-
-			case 3:
-				AjoutExperience();
+				ModifierEtudiant();
 				break;
 
 			default:
