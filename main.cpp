@@ -26,64 +26,96 @@ void afficherRDV()
 }
 
 
+void AjoutEntreprise()
+{
+	cout << endl << "Menu principale > Gerer entresprise > Ajout entresprise" << endl;
+	cout << "----------------" << endl;
+	cout << "Format de saisie d'une entreprise:" << endl;
+	cout << "   Nom, Adresse, Nom du contact, telephone du contact" << endl;
+
+
+	string resultat;
+	string infos[4];
+	while (true)
+	{
+		bool validInfos = true;
+		cin >> resultat;
+		resultat += ",";
+		for(int i = 0; i < 4; i++)
+		{
+			int pos = resultat.find(",");
+			infos[i] = resultat.substr(0, pos);
+			if (infos[i] == "")
+			{
+				cout << "Information " << i+1 << " manquante" << endl;
+				validInfos = false;
+				break;
+			}
+			resultat.erase(0, pos + 1);
+		}
+
+		if (validInfos)
+			break;
+	}
+
+	new Entreprise(infos[0], infos[1], infos[2], infos[3]);
+	cout << "Etudiant ajoute avec succes" << endl;
+}
 
 
 //A VOIR SI ON CHERCHE L'ENTREPRISE IL FAUT L'AJOUTER SI ELL EXISTE PAS ET ON TOMBRE DU COUP SUR "GERER ENTREPRISE"
 
-void AjoutExperience()
+void AjoutExperience(Etudiant *etudiant)
 {
-	/*int numE;string r;Etudiant *A;Entreprise *E;
-	cout << "numero de l'etudiant pour l'ajout d'experience" << endl;
-	cin >> numE;
+	string resultat;
+	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout experience" << endl;
+	cout << "----------------" << endl;
 	cout << "Format de saisie de l'experience:" << endl;
-	cout << "  Date_debut, Date_fin, Fonction_occupe, Entreprise, Etudiant" << endl;
-	cin>>r;
+	cout << "  Date de debut, Date de fin, Fonction occupe, Nom de l'entreprise" << endl;
+	cin>>resultat;
 
-	r += ",";
-	string car[5];
-	for(int i = 0; i < 5 ; i++)
+	resultat += ",";
+	string infos[4];
+	for(int i = 0; i < 4 ; i++)
 	{
-		int pos = r.find(",");
-		car[i] = r.substr(0, pos);
-		r.erase(0, pos + 1);
+		int pos = resultat.find(",");
+		infos[i] = resultat.substr(0, pos);
+		resultat.erase(0, pos + 1);
 	}
-	A = (Etudiant::searchByNum(numE));
-	E= (Entreprise::searchByNom(car[3]));
-	Experience *e = new Experience(car[0], car[1], car[2], E, A);
-	cout << "Experience ajoute avec succes" << endl;*/
+
+	Entreprise *entrprise = Entreprise::searchByNom(infos[3]);
+	if (entrprise == nullptr)
+	{
+		cout << "Entreprise introuvable" << endl;
+		return;
+	}
+
+	new Experience(infos[0], infos[1], infos[2], entrprise, etudiant);
+	cout << "Experience ajoute avec succes" << endl;
 }
 
 
 
 
-void AjoutDiplome()
+void AjoutDiplome(Etudiant *etudiant)
 {
-	int numE;Etudiant *A;string r;
+	string resultat;
 	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout diplome" << endl;
-	cout << "Numero de l'étudiant pour l'ajout du diplome" << endl;
-	while (true)
-	{
-		cin >> numE;
-		if (Etudiant::existe(numE))
-			break;
-		cout << "Etudiant inexistant";
-	}
-
+	cout << "----------------" << endl;
 	cout << "Format de saisie du diplome:" << endl;
 	cout << "  Code, Nom national, Date d'obtention, Lieu d'obtention" << endl;
-	cin >> r;
+	cin >> resultat;
 
-	r += ",";
+	resultat += ",";
 	string infos[4];
 	for(int i = 0; i < 4 ; i++)
 	{
-		int pos = r.find(",");
-		infos[i] = r.substr(0, pos);
-		r.erase(0, pos + 1);
+		int pos = resultat.find(",");
+		infos[i] = resultat.substr(0, pos);
+		resultat.erase(0, pos + 1);
 	}
 	int code = atoi(infos[0].c_str());
-	A = (Etudiant::searchByNum(numE));
-	new Diplome(code, infos[1], infos[2], infos[3], A);
+	new Diplome(code, infos[1], infos[2], infos[3], etudiant);
 	cout << "Diplome ajouté avec succès" << endl;
 }
 
@@ -99,13 +131,15 @@ void ModifierEtudiant()
 		return;
 	}
 
-
+	Etudiant *etudiant = Etudiant::searchByNum(numeroEtudiant);
 	int reponse = 0;
 	string a;
 	while (true)
 	{
 
 		cout << endl << "Menu principale > Gerer etudiant > Modifier etudiant" << endl;
+		cout << "----------------" << endl;
+		cout << etudiant->getNom() << " " << etudiant->getPrenom() << " N°" << etudiant->getNumero() << endl;
 		cout << "1. Ajouter diplome" << endl;
 		cout << "2. Ajouter experience" << endl;
 		cout << "3. Retour" << endl;
@@ -118,11 +152,11 @@ void ModifierEtudiant()
 		switch (reponse)
 		{
 			case 1:
-				AjoutDiplome();
+				AjoutDiplome(etudiant);
 				break;
 
 			case 2:
-				AjoutExperience();
+				AjoutExperience(etudiant);
 				break;
 
 			default:
@@ -135,9 +169,9 @@ void ModifierEtudiant()
 
 void AjoutEtudiant()
 {
-	string r;
 	int cycle;
 	cout << endl << "Menu principale > Gerer etudiant > Ajout etudiant" << endl;
+	cout << "----------------" << endl;
 	cout << "Cycle de l'etudiant (1 ou 2): ";
 	do
 	{
@@ -161,21 +195,26 @@ void AjoutEtudiant()
 	}
 	while (true);
 
+
+	string resultat;
 	// ajouter verification formatage saisie
 	string infos[(cycle == 1) ? 8 : 6];
 	while (true)
 	{
 		bool validInfos = true;
-		cin >> r;
-		r += ",";
+		cin >> resultat;
+		resultat += ",";
 		for(int i = 0; i < ((cycle == 1) ? 8 : 6); i++)
 		{
-			int pos = r.find(",");
-			infos[i] = r.substr(0, pos);
-			cout << "infos :" << infos[i] << endl;
+			int pos = resultat.find(",");
+			infos[i] = resultat.substr(0, pos);
 			if (infos[i] == "")
+			{
+				cout << "Information " << i+1 << " manquante" << endl;
 				validInfos = false;
-			r.erase(0, pos + 1);
+				break;
+			}
+			resultat.erase(0, pos + 1);
 		}
 
 		if (validInfos)
@@ -206,6 +245,7 @@ void GererEtudiant()
 	{
 
 		cout << endl << "Menu principale > Gerer etudiant" << endl;
+		cout << "----------------" << endl;
 		cout << "1. Ajouter etudiant" << endl;
 		cout << "2. Modifier etudiant" << endl;
 		cout << "3. Retour" << endl;
@@ -235,7 +275,32 @@ void GererEtudiant()
 
 void GererEntreprise()
 {
+	int reponse = 0;
+	string a;
+	while (true)
+	{
 
+		cout << endl << "Menu principale > Gerer entreprise" << endl;
+		cout << "----------------" << endl;
+		cout << "1. Ajouter entreprise" << endl;
+		cout << "2. Retour" << endl;
+		cout << "Choisir une option: ";
+
+		do {
+			cin >> reponse;
+		}
+		while (reponse < 1 || reponse > 2);
+		switch (reponse)
+		{
+			case 1:
+				AjoutEntreprise();
+				break;
+
+			default:
+				cout << endl;
+				return;
+		}
+	}
 }
 
 void GererRDV()
@@ -281,24 +346,20 @@ int main()
 //	SavingSystem::saveEtudiants();
 
 	// TEST RESTORING
-	/*SavingSystem::restoreEtudiants();
+	SavingSystem::restoreEtudiants();
 
 
-	cout << Etudiant::getEtudiants().size() << " etudiants chargés !" << endl;
+	/*cout << Etudiant::getEtudiants().size() << " etudiants chargés !" << endl;
 	for (Etudiant *e : Etudiant::getEtudiants())
 	{
 		cout << e->getNom() << endl;
-	}
-
-	return 0;*/
-
-
+	}*/
 
 	int reponse = 0;
 	while(true)
 	{
 		cout << endl << "Menu principale" << endl;
-		cout << "---------------" << endl;
+		cout << "----------------" << endl;
 		cout << "1. Gerer etudiant" << endl;
 		cout << "2. Gerer entreprise" << endl;
 		cout << "3. Gerer rendez-vous" << endl;

@@ -24,7 +24,7 @@ public:
 	void ajouterRdv(RDV* rdv) { liste_rdv.push_back(rdv); }
 
 	// Static methods
-	static Entreprise* searchByNom(int numE);
+	static Entreprise* searchByNom(const string& nom);
 
 	// Getters and Setters
 	static list<Entreprise*>& getEntreprises() { return liste_entreprises; }
