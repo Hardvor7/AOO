@@ -28,7 +28,7 @@ void afficherRDV()
 
 void AjoutEntreprise()
 {
-	cout << endl << "Menu principale > Gerer entresprise > Ajout entresprise" << endl;
+	cout << endl << "Menu principale > Gerer entreprise > Ajout entreprise" << endl;
 	cout << "----------------" << endl;
 	cout << "Format de saisie d'une entreprise:" << endl;
 	cout << "   Nom, Adresse, Nom du contact, telephone du contact" << endl;
