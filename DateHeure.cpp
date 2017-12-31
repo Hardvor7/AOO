@@ -7,6 +7,37 @@ Date::Date(int jour, int mois, int annee)
 	this->annee = annee;
 }
 
+Date::Date(string& date)
+{
+	string infos[3];
+	date += "/";
+	for(int i = 0; i < 3; i++)
+	{
+		int pos = date.find("/");
+		int value = atoi(date.substr(0, pos).c_str());
+		switch (i)
+		{
+			case 0:
+				if (value < 1 || value > 31)
+					throw invalid_argument( "Jour incorrect" );
+				jour = value;
+				break;
+			case 1:
+				if (value < 1 || value > 12)
+					throw invalid_argument( "Mois incorrect" );
+				mois = value;
+				break;
+			case 2:
+				if (value < 2018)
+					throw invalid_argument( "Année incorrect" );
+				annee = value;
+				break;
+
+		}
+		date.erase(0, pos + 1);
+	}
+}
+
 Date::Date(const Date& d)
 : Date(d.jour, d.mois, d.annee)
 { }
@@ -39,17 +70,27 @@ Heure::Heure(int heure, int minute)
 	this->heure = heure;
 	this->minute = minute;
 }
+Heure::Heure(string& heure)
+{
+	int pos = heure.find(":");
+	int value = atoi(heure.substr(0, pos).c_str());
+	if (value < 0 || value > 23)
+		throw invalid_argument( "Heure incorrect" );
+
+	this->heure = value;
+	heure.erase(0, pos + 1);
+
+	value = atoi(heure.c_str());
+	if (value < 0 || value > 59)
+		throw invalid_argument( "Minute incorrect" );
+
+	this->minute = value;
+}
 
 Heure::Heure(const Heure& h)
 : Heure(h.heure, h.minute)
 { }
 
-bool Heure::operator<(Heure h)
-{
-	if (heure != h.heure)
-		return heure < h.heure;
-	return minute < h.minute;
-}
 
 bool Heure::operator==(Heure h)
 {
@@ -61,6 +102,27 @@ bool Heure::operator>(Heure h)
 	if (heure != h.heure)
 		return heure > h.heure;
 	return minute > h.minute;
+}
+
+bool Heure::operator>=(Heure h)
+{
+	if (heure != h.heure)
+		return heure > h.heure;
+	return minute >= h.minute;
+}
+
+bool Heure::operator<(Heure h)
+{
+	if (heure != h.heure)
+		return heure < h.heure;
+	return minute < h.minute;
+}
+
+bool Heure::operator<=(Heure h)
+{
+	if (heure != h.heure)
+		return heure < h.heure;
+	return minute <= h.minute;
 }
 
 string Heure::toString()
