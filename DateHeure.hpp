@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <stdlib.h>
+#include <stdexcept>
 
 using namespace std;
 
@@ -15,6 +17,7 @@ class Date
 
 public:
 	Date(int jour, int mois, int annee);
+	Date(string& d);
 	Date(const Date& d);
 	
 	bool operator<(Date d);
@@ -33,11 +36,14 @@ class Heure
 
 public:
 	Heure(int heure, int minute);
+	Heure(string& heure);
 	Heure(const Heure& h);
 	
-	bool operator<(Heure h);
 	bool operator==(Heure h);
 	bool operator>(Heure h);
+	bool operator>=(Heure h);
+	bool operator<(Heure h);
+	bool operator<=(Heure h);
 
 	string toString();
 

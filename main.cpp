@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <stdexcept>
 
 #include "DateHeure.hpp"
 #include "EtudiantCycle1.hpp"
@@ -25,6 +26,85 @@ void afficherRDV()
 
 }
 
+void AjoutRDV()
+{
+	Etudiant *etudiant;
+	Entreprise *entreprise;
+	Date *date;
+	Heure *heureDebut;
+	Heure *heureFin;
+
+	cout << endl << "Menu principale > Gerer rendez-vous > Ajout rendez-vous" << endl;
+	cout << "----------------" << endl;
+
+	int numeroEtudiant;
+	cout << "Saisir le numero de l'étudiant" << endl;
+	cin >> numeroEtudiant;
+	if ((etudiant = Etudiant::searchByNum(numeroEtudiant)) == nullptr)
+	{
+		cout << "Numero etudiant invalide" << endl;
+		return;
+	}
+
+
+	string nomEntreprise;
+	cout << "Saisir le nom de l'entreprise" << endl;
+	cin >> nomEntreprise;
+	if ((entreprise = Entreprise::searchByNom(nomEntreprise)) == nullptr)
+	{
+		cout << "Entreprise introuvable" << endl;
+		return;
+	}
+
+	string dateInput;
+	cout << "Date du rendez-vous (Jour/Mois/Année): " << endl;
+	while (true)
+	{
+		try
+		{
+			cin >> dateInput;
+			date = new Date(dateInput);
+			break;
+		}
+		catch (const invalid_argument& e)
+		{
+			cout << e.what() << endl;
+		}
+	}
+
+	string heureInput;
+	for (int i = 0; i < 2; i++)
+	{
+		cout << ( i == 0 ? "Heure de début" : "Heure de fin") << " (heure:minute): " << endl;
+		while (true)
+		{
+			try
+			{
+				cin >> heureInput;
+				if (i == 0)
+					heureDebut = new Heure(heureInput);
+				else
+					heureFin = new Heure(heureInput);
+				break;
+			}
+			catch (const invalid_argument& e)
+			{
+				cout << e.what() << endl;
+			}
+		}
+	}
+
+	try
+	{
+		new RDV(date, heureDebut, heureFin, etudiant, entreprise);
+	}
+	catch(const invalid_argument& e)
+	{
+		cout << "Impossible d'jouter le rendez-vous: " << e.what() << endl;
+		return;
+	}
+	cout << "Rendez-vous ajouté avec succès" << endl;
+}
 
 void AjoutEntreprise()
 {
@@ -83,14 +163,14 @@ void AjoutExperience(Etudiant *etudiant)
 		resultat.erase(0, pos + 1);
 	}
 
-	Entreprise *entrprise = Entreprise::searchByNom(infos[3]);
-	if (entrprise == nullptr)
+	Entreprise *entreprise = Entreprise::searchByNom(infos[3]);
+	if (entreprise == nullptr)
 	{
 		cout << "Entreprise introuvable" << endl;
 		return;
 	}
 
-	new Experience(infos[0], infos[1], infos[2], entrprise, etudiant);
+	new Experience(infos[0], infos[1], infos[2], entreprise, etudiant);
 	cout << "Experience ajoute avec succes" << endl;
 }
 
@@ -240,7 +320,6 @@ void AjoutEtudiant()
 void GererEtudiant()
 {
 	int reponse = 0;
-	string a;
 	while (true)
 	{
 
@@ -276,7 +355,6 @@ void GererEtudiant()
 void GererEntreprise()
 {
 	int reponse = 0;
-	string a;
 	while (true)
 	{
 
@@ -305,7 +383,37 @@ void GererEntreprise()
 
 void GererRDV()
 {
+	int reponse = 0;
+	while (true)
+	{
 
+		cout << endl << "Menu principale > Gerer rendez-vous" << endl;
+		cout << "----------------" << endl;
+		cout << "1. Ajouter rendez-vous" << endl;
+		cout << "2. Modifier rendez-vous" << endl;
+		cout << "3. Liste des rendez-vous" << endl;
+		cout << "4. Retour" << endl;
+		cout << "Choisir une option: ";
+
+		do {
+			cin >> reponse;
+		}
+		while (reponse < 1 || reponse > 4);
+		switch (reponse)
+		{
+			case 1:
+				AjoutRDV();
+				break;
+
+			case 3:
+				afficherRDV();
+				break;
+
+			default:
+				cout << endl;
+				return;
+		}
+	}
 }
 
 int main()
@@ -341,19 +449,22 @@ int main()
 	}*/
 
 	// TEST SAVING
-//	EtudiantCycle2 *e1 = new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
+	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
+	new Entreprise("1", "somewhere", "paul", "060606060");
+	Entreprise* e = Entreprise::searchByNom("1");
+	if (e != nullptr)
+		cout << e->getNom() << " trouvé" << endl;
+	else
+		cout << "NON TROUVE" << endl;
+
+
 //	EtudiantCycle1 *e2 = new EtudiantCycle1(1,"Leclair","Robin","Limoges","06236545123", "2015", "Raoul Dautry", "S");
 //	SavingSystem::saveEtudiants();
 
 	// TEST RESTORING
 	SavingSystem::restoreEtudiants();
 
-
-	/*cout << Etudiant::getEtudiants().size() << " etudiants chargés !" << endl;
-	for (Etudiant *e : Etudiant::getEtudiants())
-	{
-		cout << e->getNom() << endl;
-	}*/
+	new RDV(new Date(12,12,2018), new Heure(12,10), new Heure(12,20), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
 
 	int reponse = 0;
 	while(true)

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <stdexcept>
 
 using namespace std;
 
