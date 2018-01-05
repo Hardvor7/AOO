@@ -12,9 +12,28 @@
 #include "Entreprise.hpp"
 #include "Inscription.hpp"
 #include "RDV.hpp"
-#include "SavingSystem.hpp"
 
 using namespace std;
+
+#define EXIT_DIALOG_STRING "STOP"
+
+vector<string> split(string inputString, string delimiter, int splitCount, bool addDelimiter)
+{
+	vector<string> result;
+	if (addDelimiter)
+		inputString += delimiter;
+	for(int i = 0; i < splitCount; i++)
+	{
+		int pos = inputString.find(delimiter.c_str());
+		result.push_back(inputString.substr(0, pos));
+		if (result[i] == "")
+		{
+			throw invalid_argument( "Information manquante" );
+		}
+		inputString.erase(0, pos + 1);
+	}
+	return result;
+}
 
 void afficherRDV()
 {
@@ -28,6 +47,7 @@ void afficherRDV()
 
 void AjoutRDV()
 {
+	string userInput;
 	Etudiant *etudiant;
 	Entreprise *entreprise;
 	Date *date;
@@ -37,141 +57,152 @@ void AjoutRDV()
 	cout << endl << "Menu principale > Gerer rendez-vous > Ajout rendez-vous" << endl;
 	cout << "----------------" << endl;
 
-	int numeroEtudiant;
 	cout << "Saisir le numero de l'étudiant" << endl;
-	cin >> numeroEtudiant;
-	if ((etudiant = Etudiant::searchByNum(numeroEtudiant)) == nullptr)
+	while (true)
 	{
-		cout << "Numero etudiant invalide" << endl;
-		return;
+		cin >> userInput;
+		if (userInput == EXIT_DIALOG_STRING) return;
+		if ((etudiant = Etudiant::searchByNum(atoi(userInput.c_str()))) != nullptr)
+			break;
+		cout << "ERREUR: Numero etudiant invalide" << endl;
 	}
 
-
-	string nomEntreprise;
 	cout << "Saisir le nom de l'entreprise" << endl;
-	cin >> nomEntreprise;
-	if ((entreprise = Entreprise::searchByNom(nomEntreprise)) == nullptr)
+	while (true)
 	{
-		cout << "Entreprise introuvable" << endl;
-		return;
+		cin >> userInput;
+		if (userInput == EXIT_DIALOG_STRING) return;
+		if ((entreprise = Entreprise::searchByNom(userInput)) != nullptr)
+			break;
+		cout << "ERREUR: Entreprise introuvable" << endl;
 	}
 
-	string dateInput;
 	cout << "Date du rendez-vous (Jour/Mois/Année): " << endl;
 	while (true)
 	{
-		try
-		{
-			cin >> dateInput;
-			date = new Date(dateInput);
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			date = new Date(userInput, 1);
 			break;
 		}
-		catch (const invalid_argument& e)
-		{
-			cout << e.what() << endl;
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
 		}
 	}
 
-	string heureInput;
 	for (int i = 0; i < 2; i++)
 	{
 		cout << ( i == 0 ? "Heure de début" : "Heure de fin") << " (heure:minute): " << endl;
 		while (true)
 		{
-			try
-			{
-				cin >> heureInput;
-				if (i == 0)
-					heureDebut = new Heure(heureInput);
-				else
-					heureFin = new Heure(heureInput);
+			try {
+				cin >> userInput;
+				if (userInput == EXIT_DIALOG_STRING) return;
+				( i == 0 ? heureDebut : heureFin ) = new Heure(userInput);
 				break;
 			}
-			catch (const invalid_argument& e)
-			{
-				cout << e.what() << endl;
+			catch (const invalid_argument& e) {
+				cout << "ERREUR: " << e.what() << endl;
 			}
 		}
 	}
 
-	try
-	{
+	try {
 		new RDV(date, heureDebut, heureFin, etudiant, entreprise);
+		cout << "SUCCES: Rendez-vous ajouté" << endl;
 	}
-	catch(const invalid_argument& e)
-	{
-		cout << "Impossible d'jouter le rendez-vous: " << e.what() << endl;
-		return;
+	catch (const invalid_argument& e) {
+		cout << "ERREUR: Impossible d'jouter le rendez-vous: " << e.what() << endl;
 	}
-	cout << "Rendez-vous ajouté avec succès" << endl;
 }
 
 void AjoutEntreprise()
 {
+	string userInput;
+
 	cout << endl << "Menu principale > Gerer entreprise > Ajout entreprise" << endl;
 	cout << "----------------" << endl;
 	cout << "Format de saisie d'une entreprise:" << endl;
 	cout << "   Nom, Adresse, Nom du contact, telephone du contact" << endl;
 
-
-	string resultat;
-	string infos[4];
+	vector<string> infos;
 	while (true)
 	{
-		bool validInfos = true;
-		cin >> resultat;
-		resultat += ",";
-		for(int i = 0; i < 4; i++)
-		{
-			int pos = resultat.find(",");
-			infos[i] = resultat.substr(0, pos);
-			if (infos[i] == "")
-			{
-				cout << "Information " << i+1 << " manquante" << endl;
-				validInfos = false;
-				break;
-			}
-			resultat.erase(0, pos + 1);
-		}
-
-		if (validInfos)
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			infos = split(userInput, ",", 4, true);
 			break;
+		}
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
+		}
 	}
 
-	new Entreprise(infos[0], infos[1], infos[2], infos[3]);
-	cout << "Etudiant ajoute avec succes" << endl;
+	try {
+		new Entreprise(infos[0], infos[1], infos[2], infos[3]);
+		cout << "SUCCES: Entreprise ajoutée" << endl;
+	}
+	catch (const invalid_argument& e) {
+		cout << "ERREUR: Impossible d'jouter l'entreprise: " << e.what() << endl;
+	}
+
 }
-
-
-//A VOIR SI ON CHERCHE L'ENTREPRISE IL FAUT L'AJOUTER SI ELL EXISTE PAS ET ON TOMBRE DU COUP SUR "GERER ENTREPRISE"
 
 void AjoutExperience(Etudiant *etudiant)
 {
-	string resultat;
+	string userInput;
+	Date* dateDebut;
+	Date* dateFin;
+	Entreprise* entreprise;
+
 	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout experience" << endl;
 	cout << "----------------" << endl;
-	cout << "Format de saisie de l'experience:" << endl;
-	cout << "  Date de debut, Date de fin, Fonction occupe, Nom de l'entreprise" << endl;
-	cin>>resultat;
+	cout << " Saisir: Nom de l'entreprise,  Fonction occupe" << endl;
 
-	resultat += ",";
-	string infos[4];
-	for(int i = 0; i < 4 ; i++)
+	vector<string> infos;
+	while (true)
 	{
-		int pos = resultat.find(",");
-		infos[i] = resultat.substr(0, pos);
-		resultat.erase(0, pos + 1);
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			infos = split(userInput, ",", 2, true);
+
+			if ((entreprise = Entreprise::searchByNom(infos[0])) != nullptr)
+				break;
+			cout << "ERREUR: Entreprise introuvable" << endl;
+		}
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
+		}
 	}
 
-	Entreprise *entreprise = Entreprise::searchByNom(infos[3]);
-	if (entreprise == nullptr)
+	for (int i = 0; i < 2; i++)
 	{
-		cout << "Entreprise introuvable" << endl;
-		return;
+		cout << ( i == 0 ? "Date de début" : "Date de fin") << " (Jour/Mois/Année): " << endl;
+		while (true)
+		{
+			try {
+				cin >> userInput;
+				if (userInput == EXIT_DIALOG_STRING) return;
+
+				( i == 0 ? dateDebut : dateFin) = new Date(userInput, 2);
+				break;
+			}
+			catch (const invalid_argument& e) {
+				cout << "ERREUR: " << e.what() << endl;
+			}
+		}
 	}
 
-	new Experience(infos[0], infos[1], infos[2], entreprise, etudiant);
-	cout << "Experience ajoute avec succes" << endl;
+	try {
+		new Experience(dateDebut, dateFin, infos[1], entreprise, etudiant);
+		cout << "SUCCES: Experience ajoutée" << endl;
+	}
+	catch (const invalid_argument& e) {
+		cout << "ERREUR: Impossible d'jouter l'experience: " << e.what() << endl;
+	}
 }
 
 
@@ -179,41 +210,49 @@ void AjoutExperience(Etudiant *etudiant)
 
 void AjoutDiplome(Etudiant *etudiant)
 {
-	string resultat;
+	string userInput;
+
 	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout diplome" << endl;
 	cout << "----------------" << endl;
 	cout << "Format de saisie du diplome:" << endl;
 	cout << "  Code, Nom national, Date d'obtention, Lieu d'obtention" << endl;
-	cin >> resultat;
 
-	resultat += ",";
-	string infos[4];
-	for(int i = 0; i < 4 ; i++)
+	vector<string> infos;
+	while (true)
 	{
-		int pos = resultat.find(",");
-		infos[i] = resultat.substr(0, pos);
-		resultat.erase(0, pos + 1);
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			infos = split(userInput, ",", 4, true);
+			break;
+		}
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
+		}
 	}
-	int code = atoi(infos[0].c_str());
-	new Diplome(code, infos[1], infos[2], infos[3], etudiant);
-	cout << "Diplome ajouté avec succès" << endl;
+
+	new Diplome(atoi(infos[0].c_str()), infos[1], infos[2], infos[3], etudiant);
+	cout << "SUCCES: Diplome ajouté" << endl;
 }
 
 void ModifierEtudiant()
 {
+	string userInput;
+	Etudiant *etudiant;
+
 	cout << "Saisir le numero de l'étudiant" << endl;
 
-	int numeroEtudiant;
-	cin >> numeroEtudiant;
-	if (!Etudiant::existe(numeroEtudiant))
+	while (true)
 	{
-		cout << "Numero etudiant invalide" << endl;
-		return;
+		cin >> userInput;
+		etudiant = Etudiant::searchByNum(atoi(userInput.c_str()));
+		if (etudiant != nullptr)
+				break;
+		cout << "ERREUR: Etudiant introuvable" << endl;
+
 	}
 
-	Etudiant *etudiant = Etudiant::searchByNum(numeroEtudiant);
 	int reponse = 0;
-	string a;
 	while (true)
 	{
 
@@ -250,70 +289,50 @@ void ModifierEtudiant()
 void AjoutEtudiant()
 {
 	int cycle;
+	string userInput;
+
 	cout << endl << "Menu principale > Gerer etudiant > Ajout etudiant" << endl;
 	cout << "----------------" << endl;
 	cout << "Cycle de l'etudiant (1 ou 2): ";
-	do
-	{
-		cin >> cycle;
-		if(cycle == 1)
-		{
-			cout << "Format de saisie cycle 1:" << endl;
-			cout << "   Numero etudiant, Nom, Prenom, Adresse, Numero telephone, Annee BAC, lieu BAC, serie BAC" << endl;
-			break;
-		}
-		else if (cycle == 2)
-		{
-			cout << "Format de saisie cycle 2:" << endl;
-			cout << "   Numero etudiant, Nom, Prenom, Adresse, Numero telephone, Discipline" << endl;
-			break;
-		}
-		else
-		{
-			cout << "Cycle inexistant" << endl;
-		}
-	}
-	while (true);
 
-
-	string resultat;
-	// ajouter verification formatage saisie
-	string infos[(cycle == 1) ? 8 : 6];
 	while (true)
 	{
-		bool validInfos = true;
-		cin >> resultat;
-		resultat += ",";
-		for(int i = 0; i < ((cycle == 1) ? 8 : 6); i++)
-		{
-			int pos = resultat.find(",");
-			infos[i] = resultat.substr(0, pos);
-			if (infos[i] == "")
-			{
-				cout << "Information " << i+1 << " manquante" << endl;
-				validInfos = false;
-				break;
-			}
-			resultat.erase(0, pos + 1);
-		}
-
-		if (validInfos)
+		cin >> cycle;
+		if (cycle == 1 || cycle == 2)
 			break;
+		cout << "ERREUR: Cycle inexistant" << endl;
 	}
 
-	int numE = atoi(infos[0].c_str());
-	if (!Etudiant::existe(numE))
-	{
-		if (cycle == 1)
-			new EtudiantCycle1(numE, infos[1], infos[2], infos[3], infos[4], infos[5], infos[6], infos[7]);
-		else
-			new EtudiantCycle2(numE, infos[1], infos[2], infos[3], infos[4], infos[5]);
-		cout << "Etudiant ajoute avec succes" << endl;
-		SavingSystem::saveEtudiants();
-	}
+	cout << "Format de saisie cycle " << cycle << ":" << endl;
+	if(cycle == 1)
+		cout << "   Numero etudiant, Nom, Prenom, Adresse, Numero telephone, Annee BAC, lieu BAC, serie BAC" << endl;
 	else
+		cout << "   Numero etudiant, Nom, Prenom, Adresse, Numero telephone, Discipline" << endl;
+
+
+	vector<string> infos;
+	while (true)
 	{
-		cout << "Numero étudiant invalide" << endl;
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			infos = split(userInput, ",", (cycle == 1 ? 8 : 6), true);
+			break;
+		}
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
+		}
+	}
+
+	try {
+		if (cycle == 1)
+			new EtudiantCycle1(atoi(infos[0].c_str()), infos[1], infos[2], infos[3], infos[4], infos[5], infos[6], infos[7]);
+		else
+			new EtudiantCycle2(atoi(infos[0].c_str()), infos[1], infos[2], infos[3], infos[4], infos[5]);
+		cout << "SUCCES: Etudiant ajouté" << endl;
+	}
+	catch (const invalid_argument& e) {
+		cout << "ERREUR: Impossible d'ajouter l'etudiant:" << e.what() << endl;
 	}
 }
 
@@ -448,21 +467,11 @@ int main()
 		cout << "yes" << endl;
 	}*/
 
-	// TEST SAVING
 	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
 	new Entreprise("1", "somewhere", "paul", "060606060");
-	Entreprise* e = Entreprise::searchByNom("1");
-	if (e != nullptr)
-		cout << e->getNom() << " trouvé" << endl;
-	else
-		cout << "NON TROUVE" << endl;
 
+	new EtudiantCycle1(1,"Leclair","Robin","Limoges","06236545123", "2015", "Raoul Dautry", "S");
 
-//	EtudiantCycle1 *e2 = new EtudiantCycle1(1,"Leclair","Robin","Limoges","06236545123", "2015", "Raoul Dautry", "S");
-//	SavingSystem::saveEtudiants();
-
-	// TEST RESTORING
-	SavingSystem::restoreEtudiants();
 
 	new RDV(new Date(12,12,2018), new Heure(12,10), new Heure(12,20), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
 

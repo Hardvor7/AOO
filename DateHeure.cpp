@@ -7,7 +7,7 @@ Date::Date(int jour, int mois, int annee)
 	this->annee = annee;
 }
 
-Date::Date(string& date)
+Date::Date(string& date, int dateCondition) // condition 1 : la date doit etre superieur a la date d'aujourdhui | 2 : la date doit etre inferieur a la date d'aujourdhui
 {
 	string infos[3];
 	date += "/";
@@ -28,8 +28,18 @@ Date::Date(string& date)
 				mois = value;
 				break;
 			case 2:
-				if (value < 2018)
-					throw invalid_argument( "Année incorrect" );
+				switch (dateCondition)
+				{
+				case 1:
+					if (value < 2018)
+						throw invalid_argument( "Année incorrect" );
+					break;
+
+				case 2:
+					if (value > 2017)
+						throw invalid_argument( "Année incorrect" );
+					break;
+				}
 				annee = value;
 				break;
 
@@ -49,6 +59,15 @@ bool Date::operator<(Date d)
 	if (mois != d.mois)
 		return mois < d.mois;
 	return jour < d.jour;
+}
+
+bool Date::operator<=(Date d)
+{
+	if (annee != d.annee)
+		return annee < d.annee;
+	if (mois != d.mois)
+		return mois < d.mois;
+	return jour <= d.jour;
 }
 
 bool Date::operator==(Date d)
@@ -128,6 +147,6 @@ bool Heure::operator<=(Heure h)
 string Heure::toString()
 {
 	ostringstream h;
-	h << heure << ":" << minute;
+	h << heure << "h" << minute;
 	return h.str();
 }

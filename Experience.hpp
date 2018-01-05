@@ -3,31 +3,33 @@
 
 #include <string>
 #include <list>
+#include <stdexcept>
 
 using namespace std;
 
 class Entreprise;
 class Etudiant;
+class Date;
 
 class Experience
 {
 	static list<Experience*> liste_experiences;
 
-	string date_debut;
-	string date_fin;
-	string fonction_occupe;
+	Date *dateDebut;
+	Date *dateFin;
+	string fonctionOccupe;
 	Etudiant *etudiant;
 	Entreprise *entreprise;
 
 public:
-	Experience(const string& date_debut , const string& date_fin , const string& fonction_occupe, Entreprise *entreprise, Etudiant *etudiant);
+	Experience(Date *dateDebut, Date *dateFin , const string& fonctionOccupe, Entreprise *entreprise, Etudiant *etudiant);
 
 	// Getters and Setters
 	static list<Experience*>& getEtudiants() { return liste_experiences; }
 
-	const string& getDateDebut() const { return date_debut; }
-	const string& getDateFin() const { return date_fin; }
-	const string& getFonctionOccupe() const { return fonction_occupe; }
+	Date* getDateDebut() const { return dateDebut; }
+	Date* getDateFin() const { return dateFin; }
+	const string& getFonctionOccupe() const { return fonctionOccupe; }
 	Etudiant* getEtudiant() const { return etudiant; }
 	Entreprise* getEntreprise() const { return entreprise; }
 };

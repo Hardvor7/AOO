@@ -9,6 +9,9 @@ list<Etudiant*> Etudiant::liste_etudiants;
 
 Etudiant::Etudiant(int numero, const string& nom, const string& prenom, const string& adresse, const string& telephone)
 {
+	if (existe(numero))
+		throw invalid_argument("L'etudiant existe déjà");
+
 	this->numero = numero;
 	this->nom = nom;
 	this->prenom = prenom;

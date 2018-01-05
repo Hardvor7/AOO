@@ -5,15 +5,14 @@
 
 list<RDV*> RDV::liste_rdvs;
 
-RDV::RDV(Date *date, Heure *heure_debut, Heure *heure_fin, Etudiant *etudiant, Entreprise *entreprise)
+RDV::RDV(Date *date, Heure *heureDebut, Heure *heureFin, Etudiant *etudiant, Entreprise *entreprise)
 {
-
-	if (*heure_fin <= *heure_debut)
+	if (*heureFin <= *heureDebut)
 		throw invalid_argument( "Un rendez-vous ne peut pas finir avant d'avoir commencé" );
 
 	this->date = date;
-	this->heure_debut = heure_debut;
-	this->heure_fin = heure_fin;
+	this->heureDebut = heureDebut;
+	this->heureFin = heureFin;
 	this->etudiant = etudiant;
 	this->entreprise = entreprise;
 
@@ -52,16 +51,16 @@ void RDV::afficher()
 {
 	cout << etudiant->getNom() << " " << etudiant->getPrenom() << " ---> " << entreprise->getNom() << endl;
 	cout << "Date:" << date->toString();
-	cout << "\t" << heure_debut->toString() << "-" << heure_fin->toString() << endl;
+	cout << "\t" << heureDebut->toString() << "-" << heureFin->toString() << endl;
 }
 
 bool RDV::chevauche(RDV rdv)
 {
 	if (!(*date == *rdv.date))
 		return false;
-	if (*heure_debut >= *rdv.heure_fin)
+	if (*heureDebut >= *rdv.heureFin)
 		return false;
-	if (*heure_fin <= *rdv.heure_debut)
+	if (*heureFin <= *rdv.heureDebut)
 		return false;
 	return true;
 }
@@ -70,7 +69,7 @@ bool RDV::operator<(RDV rdv)
 {
 	if (date < rdv.date)
 		return true;
-	if (date == rdv.date && heure_debut < rdv.heure_debut && heure_fin < rdv.heure_debut)
+	if (date == rdv.date && heureDebut < rdv.heureDebut && heureFin < rdv.heureDebut)
 		return true;
 
 	return false;
