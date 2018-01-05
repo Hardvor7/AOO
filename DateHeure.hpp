@@ -17,10 +17,11 @@ class Date
 
 public:
 	Date(int jour, int mois, int annee);
-	Date(string& d);
+	Date(string& d, int dateCondition = 0);
 	Date(const Date& d);
 	
 	bool operator<(Date d);
+	bool operator<=(Date d);
 	bool operator==(Date d);
 	string toString();
 

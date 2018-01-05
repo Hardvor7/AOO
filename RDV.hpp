@@ -18,8 +18,8 @@ class RDV
 	static list<RDV*> liste_rdvs;
 
 	Date *date;
-	Heure *heure_debut;
-	Heure *heure_fin;
+	Heure *heureDebut;
+	Heure *heureFin;
 	Etudiant *etudiant;
 	Entreprise *entreprise;
 
@@ -27,7 +27,7 @@ class RDV
 	bool chevauche(RDV rdv);
 
 public:
-	RDV(Date *date, Heure *heure_debut, Heure *heure_fin, Etudiant *etudiant, Entreprise *entreprise);
+	RDV(Date *date, Heure *heureDebut, Heure *heureFin, Etudiant *etudiant, Entreprise *entreprise);
 
 	void afficher();
 
@@ -37,8 +37,8 @@ public:
 	static list<RDV*>& getRdVs() { return liste_rdvs; }
 
 	Date* getDate() const { return date; }
-	Heure* getHeureDebut() const { return heure_debut; }
-	Heure* getHeureFin() const { return heure_fin; }
+	Heure* getHeureDebut() const { return heureDebut; }
+	Heure* getHeureFin() const { return heureFin; }
 	Etudiant* getEtudiant() const { return etudiant; }
 	Entreprise* getEntreprise() const { return entreprise; }
 };

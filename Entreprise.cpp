@@ -5,6 +5,9 @@ list<Entreprise*> Entreprise::liste_entreprises;
 
 Entreprise::Entreprise(const string& nom, const string& adresse, const string& nomContact, const string& telephoneContact)
 {
+	if (searchByNom(nom) != nullptr)
+		throw invalid_argument( "Entreprise déjà existante" );
+
 	this->nom = nom;
 	this->adresse = adresse;
 	this->nomContact = nomContact;

@@ -1,14 +1,18 @@
 #include "Experience.hpp"
 #include "Entreprise.hpp"
 #include "Etudiant.hpp"
+#include "DateHeure.hpp"
 
 list<Experience*> Experience::liste_experiences;
 
-Experience::Experience(const string& date_debut , const string& date_fin , const string& fonction_occupe, Entreprise *entreprise, Etudiant *etudiant)
+Experience::Experience(Date *dateDebut, Date *dateFin , const string& fonctionOccupe, Entreprise *entreprise, Etudiant *etudiant)
 {
-	this->date_debut = date_debut;
-	this->date_fin = date_fin;
-	this->fonction_occupe = fonction_occupe;
+	if (*dateFin <= *dateDebut)
+		throw invalid_argument( "Une experience ne peut pas finir avant d'avoir commencée" );
+
+	this->dateDebut = dateDebut;
+	this->dateFin = dateFin;
+	this->fonctionOccupe = fonctionOccupe;
 	this->entreprise = entreprise;
 	this->etudiant = etudiant;
 
