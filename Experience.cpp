@@ -16,5 +16,6 @@ Experience::Experience(Date *dateDebut, Date *dateFin , const string& fonctionOc
 	this->entreprise = entreprise;
 	this->etudiant = etudiant;
 
+	etudiant->ajouterExperience(this);
 	liste_experiences.push_back(this);
 };

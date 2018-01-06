@@ -32,10 +32,12 @@ public:
 	void supprimerRdv();
 	bool operator<(RDV rdv);
 	bool operator==(RDV rdv);
+
+	// Static methods
+	static void afficherRdv();
 	
 	// Getters and Setters
 	static list<RDV*>& getRdvs() { return liste_rdvs; }
-	static void afficherRdv();
 
 	Date* getDate() const { return date; }
 	Heure* getHeureDebut() const { return heureDebut; }
