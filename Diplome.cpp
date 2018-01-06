@@ -19,6 +19,7 @@ Diplome::Diplome(int code, const string& nom_national, Date *date_obtention, con
 	this->lieu_obtention = lieu_obtention;
 	this->etudiant = etudiant;
 
+	etudiant->ajouterDiplome(this);
 	liste_diplomes.push_back(this);
 }
 

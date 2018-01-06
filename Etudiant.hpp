@@ -34,6 +34,8 @@ public:
 	virtual ~Etudiant() { }
 
 	void inscrire(Inscription *_inscription);
+	void ajouterDiplome(Diplome *diplome);
+	void ajouterExperience(Experience *experience);
 	void ajouterRdv(RDV *rdv);
 	void supprimerRdv(RDV *rdv);
 	void afficherRdv();

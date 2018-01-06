@@ -29,6 +29,16 @@ void Etudiant::inscrire(Inscription *inscription)
 	this->inscription = inscription;
 }
 
+void Etudiant::ajouterDiplome(Diplome * diplome)
+{
+	diplomes.push_back(diplome);
+}
+
+void Etudiant::ajouterExperience(Experience *experience)
+{
+	experiences.push_back(experience);
+}
+
 void Etudiant::ajouterRdv(RDV *rdv)
 {
 	list<RDV*>::iterator it;
@@ -40,7 +50,6 @@ void Etudiant::ajouterRdv(RDV *rdv)
 			return;
 		}
 	}
-
 	liste_rdvs.push_back(rdv);
 }
 
