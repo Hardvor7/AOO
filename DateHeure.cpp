@@ -7,8 +7,9 @@ Date::Date(int jour, int mois, int annee)
 	this->annee = annee;
 }
 
-Date::Date(string& date, int dateCondition) // condition 1 : la date doit etre superieur a la date d'aujourdhui | 2 : la date doit etre inferieur a la date d'aujourdhui
+Date::Date(const string& d, int dateCondition) // condition 1 : la date doit etre superieur a la date d'aujourdhui | 2 : la date doit etre inferieur a la date d'aujourdhui
 {
+	string date = d;
 	string infos[3];
 	date += "/";
 	for(int i = 0; i < 3; i++)
@@ -146,7 +147,8 @@ bool Heure::operator<=(Heure h)
 
 string Heure::toString()
 {
-	ostringstream h;
-	h << heure << "h" << minute;
-	return h.str();
+	char buffer [5];
+	sprintf (buffer, "%02dh%02d", heure, minute);
+	string h(buffer);
+	return h;
 }

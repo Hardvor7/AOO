@@ -1,7 +1,9 @@
 #include "Etudiant.hpp"
 #include "Inscription.hpp"
-#include "Diplome.hpp"
 #include "Experience.hpp"
+#include "Entreprise.hpp"
+#include "DateHeure.hpp"
+#include "Diplome.hpp"
 #include "RDV.hpp"
 
 // Initialize static variable
@@ -28,12 +30,39 @@ void Etudiant::inscrire(Inscription *inscription)
 	this->inscription->ajouterEtudiant(this);
 }
 
-void Etudiant::afficherRDV()
+void Etudiant::ajouterRdv(RDV *rdv)
 {
-	for (RDV *rdv : liste_rdv)
+	list<RDV*>::iterator it;
+	for (it = liste_rdvs.begin(); it != liste_rdvs.end(); it++)
 	{
-		rdv->afficher();
+		if ((*rdv) < (**it))
+		{
+			liste_rdvs.insert(it, rdv);
+			return;
+		}
 	}
+
+	liste_rdvs.push_back(rdv);
+}
+
+void Etudiant::supprimerRdv(RDV *rdv)
+{
+	liste_rdvs.remove(rdv);
+}
+
+void Etudiant::afficherRdv()
+{
+	int n = 1;
+	cout << endl << "Nombre de rendez-vous: " << liste_rdvs.size() << endl;
+	cout << "_________________________________________________" << endl;
+	cout << "|    |     Date     |    Heure    |  Entrepise  |" << endl;
+	for(RDV *rdv : liste_rdvs)
+	{
+		cout << "|----+--------------+-------------+-------------|" << endl;
+			printf("| %2d |  %10s  | %5s-%5s | %-12s|\n", n, rdv->getDate()->toString().c_str(), rdv->getHeureDebut()->toString().c_str(), rdv->getHeureFin()->toString().c_str(), rdv->getEntreprise()->getNom().c_str());
+		n++;
+	}
+	cout << "|____|______________|_____________|_____________|" << endl;
 }
 
 bool Etudiant::existe(int numero)

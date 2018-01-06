@@ -2,6 +2,7 @@
 #define DATE_HEURE_HPP
 
 #include <iostream>
+#include <stdio.h>
 #include <sstream>
 #include <string>
 #include <stdlib.h>
@@ -17,7 +18,7 @@ class Date
 
 public:
 	Date(int jour, int mois, int annee);
-	Date(string& d, int dateCondition = 0);
+	Date(const string& d, int dateCondition = 0);
 	Date(const Date& d);
 	
 	bool operator<(Date d);

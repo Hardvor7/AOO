@@ -16,20 +16,22 @@ RDV::RDV(Date *date, Heure *heureDebut, Heure *heureFin, Etudiant *etudiant, Ent
 	this->etudiant = etudiant;
 	this->entreprise = entreprise;
 
+	ajoutComparatifRDV();
+
 	this->etudiant->ajouterRdv(this);
 	this->entreprise->ajouterRdv(this);
 
-	ajoutComparatifRDV();
+}
+
+void RDV::supprimerRdv()
+{
+	etudiant->supprimerRdv(this);
+	entreprise->supprimerRdv(this);
+	liste_rdvs.remove(this);
 }
 
 void RDV::ajoutComparatifRDV()
 {
-	if (liste_rdvs.empty())
-	{
-		liste_rdvs.push_back(this);
-		return;
-	}
-
 	list<RDV*>::iterator it;
 	for (it = liste_rdvs.begin(); it != liste_rdvs.end(); it++)
 	{
@@ -47,11 +49,23 @@ void RDV::ajoutComparatifRDV()
 	liste_rdvs.push_back(this);
 }
 
-void RDV::afficher()
+void RDV::afficherRdv()
 {
-	cout << etudiant->getNom() << " " << etudiant->getPrenom() << " ---> " << entreprise->getNom() << endl;
-	cout << "Date:" << date->toString();
-	cout << "\t" << heureDebut->toString() << "-" << heureFin->toString() << endl;
+	int n = 1;
+	cout << endl << "Nombre de rendez-vous: " << liste_rdvs.size() << endl;
+	cout << "_______________________________________________________________________" << endl;
+	cout << "|    |     Date     |    Heure    |  Entrepise  |       Etudiant      |" << endl;
+	for(RDV *rdv : liste_rdvs)
+	{
+		string etudiant = rdv->getEtudiant()->getNom().c_str();
+		etudiant += " ";
+		etudiant += rdv->getEtudiant()->getPrenom().c_str();
+		cout << "|----+--------------+-------------+-------------+---------------------|" << endl;
+			printf("| %2d |  %10s  | %5s-%5s | %-12s| %-20s|\n", n, rdv->getDate()->toString().c_str(), rdv->getHeureDebut()->toString().c_str(),
+					rdv->getHeureFin()->toString().c_str(), rdv->getEntreprise()->getNom().c_str(), etudiant.c_str());
+		n++;
+	}
+	cout << "|____|______________|_____________|_____________|_____________________|" << endl;
 }
 
 bool RDV::chevauche(RDV rdv)
@@ -67,10 +81,16 @@ bool RDV::chevauche(RDV rdv)
 
 bool RDV::operator<(RDV rdv)
 {
-	if (date < rdv.date)
+	if (*date < *rdv.date)
 		return true;
-	if (date == rdv.date && heureDebut < rdv.heureDebut && heureFin < rdv.heureDebut)
+	if (*date == *rdv.date && *heureDebut < *rdv.heureDebut && *heureFin < *rdv.heureDebut)
 		return true;
 
 	return false;
 }	
+
+// On ne compare pas les etudiants et les entreprises car les rendez-vous ont tous des horaires différents
+bool RDV::operator==(RDV rdv)
+{
+	return (*date == *rdv.date && *heureDebut == *rdv.heureDebut && *heureFin == *rdv.heureFin);
+}
