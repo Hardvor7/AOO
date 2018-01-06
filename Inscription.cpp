@@ -2,9 +2,12 @@
 #include "Etudiant.hpp"
 #include "Diplome.hpp"
 
-Inscription::Inscription(const string& premiere_inscription, int numeroAnnee, Diplome *diplome)
+Inscription::Inscription(Date *datePemiereInscription, int numeroAnnee, Diplome *diplome, Etudiant *etudiant)
 {
-	this->premiere_inscription = premiere_inscription;
+	this->datePemiereInscription = datePemiereInscription;
 	this->numeroAnnee = numeroAnnee;
 	this->diplome = diplome;
+	this->etudiant = etudiant;
+
+	etudiant->inscrire(this);
 }

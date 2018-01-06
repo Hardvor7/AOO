@@ -68,7 +68,7 @@ void AjoutRDV(bool deplacement = false, Etudiant *etudiant = nullptr, Entreprise
 		}
 	}
 
-	cout << "Date du rendez-vous (Jour/Mois/Année): " << endl;
+	cout << "Date du rendez-vous (JJ/MM/AAAA): " << endl;
 	while (true)
 	{
 		try {
@@ -257,7 +257,7 @@ void AjoutExperience(Etudiant *etudiant)
 
 	for (int i = 0; i < 2; i++)
 	{
-		cout << ( i == 0 ? "Date de début" : "Date de fin") << " (Jour/Mois/Année): " << endl;
+		cout << ( i == 0 ? "Date de début" : "Date de fin") << " (JJ/MM/AAAA): " << endl;
 		while (true)
 		{
 			try {
@@ -293,7 +293,7 @@ void AjoutDiplome(Etudiant *etudiant)
 	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Ajout diplome" << endl;
 	cout << "----------------" << endl;
 	cout << "Format de saisie du diplome:" << endl;
-	cout << "  Code, Nom national, Date d'obtention (jour/mois/annee), Lieu d'obtention" << endl;
+	cout << "  Code, Nom national, Date d'obtention (JJ/MM/AAAA), Lieu d'obtention" << endl;
 
 	vector<string> infos;
 	while (true)
@@ -318,6 +318,44 @@ void AjoutDiplome(Etudiant *etudiant)
 	catch (const invalid_argument& e) {
 		cout << "ERREUR: Impossible d'jouter le diplome: " << e.what() << endl;
 	}
+}
+
+void Inscrire(Etudiant *etudiant)
+{
+	string userInput;
+	Date *datePremiereInscription;
+	Diplome *diplome;
+	int numeroAnnee;
+
+	cout << endl << "Menu principale > Gérer etudiant > Modifier etudiant > Inscrire" << endl;
+	cout << "----------------" << endl;
+	cout << "Format de saisie de l'inscription:" << endl;
+	cout << "  Date de la première inscription (JJ/MM/AAAA), Numero de l'année, Nom du diplome" << endl;
+
+	vector<string> infos;
+	while (true)
+	{
+		try {
+			cin >> userInput;
+			if (userInput == EXIT_DIALOG_STRING) return;
+			infos = split(userInput, ",", 3, true);
+			datePremiereInscription = new Date(infos[0], 2);
+			if ((numeroAnnee = atoi(infos[1].c_str())) < 1)
+			{
+				cout << "ERREUR: numero d'année invalide" << endl;
+				continue;
+			}
+			if ((diplome = Diplome::searchByNom(infos[2])) != nullptr)
+				break;
+			cout << "ERREUR: Diplome introuvable" << endl;
+		}
+		catch (const invalid_argument& e) {
+			cout << "ERREUR: " << e.what() << endl;
+		}
+	}
+
+	new Inscription(datePremiereInscription, numeroAnnee, diplome, etudiant);
+	cout << "SUCCES: Inscription enregistrée" << endl;
 }
 
 void ModifierEtudiant()
@@ -346,14 +384,15 @@ void ModifierEtudiant()
 		cout << etudiant->getNom() << " " << etudiant->getPrenom() << " N°" << etudiant->getNumero() << endl;
 		cout << "1. Ajouter diplome" << endl;
 		cout << "2. Ajouter experience" << endl;
-		cout << "3. Afficher rendez-vous" << endl;
-		cout << "4. Retour" << endl;
+		cout << "3. Inscrire" << endl;
+		cout << "4. Afficher rendez-vous" << endl;
+		cout << "5. Retour" << endl;
 		cout << "Choisir une option: ";
 
 		do {
 			cin >> reponse;
 		}
-		while (reponse < 1 || reponse > 4);
+		while (reponse < 1 || reponse > 5);
 		switch (reponse)
 		{
 			case 1:
@@ -365,6 +404,10 @@ void ModifierEtudiant()
 				break;
 
 			case 3:
+				Inscrire(etudiant);
+				break;
+
+			case 4:
 				etudiant->afficherRdv();
 				break;
 
@@ -554,54 +597,31 @@ void GererRDV()
 	}
 }
 
-int main()
+
+void remplirBDD()
 {
-	/*
-	Date *d1 = new Date(12, 12, 2012);
-	Date *d2 = new Date(15, 12, 2012);
+	// Ajout des diplomes possibles
+	new Diplome("BAC");
 
-	Heure *h1 = new Heure(12,00);
-	Heure *h2 = new Heure(12,15);
-	Heure *h3 = new Heure(12,30);
-	Heure *h4 = new Heure(12,45);
-	Heure *h5 = new Heure(12,40);
-	Heure *h6 = new Heure(13,00);
-
-	Etudiant *E1 = new Etudiant(5,"Brault","Pierre-Louis","Limoges","0623654532");
-	Entreprise *Et1 = new Entreprise("Ubisoft", "Toulouse", "Michel", "0606060606");
-
-	afficherRDV();
-	cout << "lol" << endl;
-	RDV *rdv1 = new RDV(d1, h1, h2, E1, Et1);
-	RDV *rdv2 = new RDV(d1, h3, h4, E1, Et1);
-	RDV *rdv3 = new RDV(d1, h5, h6, E1, Et1);
-	afficherRDV();
-
-*/
-
-	/*EtudiantCycle2 *e1 = new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
-	Etudiant * test = e1;
-	//EtudiantCycle2 *e = static_cast<EtudiantCycle2*>(Etudiant::getEtudiants().front());
-	if(test->getClassType() == ETUDIANT_TYPE) {
-		cout << "yes" << endl;
-	}*/
-	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
+	//  Ajout des Entreprises
 	new Entreprise("ubisoft", "somewhere", "paul", "060606060");
 
+	// Ajout des Etudiants
+		// Ajout des diplomes aux étudiants
+		// Ajout des experiences aux etudiants
+		// Ajout des inscriptions
+		// Ajouter des rendez-vous
+
 	new EtudiantCycle1(1,"Leclair","Robin","Limoges","06236545123", 2015, "Raoul Dautry", "S");
-	new Diplome(5,"BAC", new Date("5/07/2015"), "Dautry", Etudiant::getEtudiants().front());
+		new Diplome(5,"BAC", new Date("5/07/2015"), "Dautry", Etudiant::getEtudiants().back());
+		new RDV(new Date(12,10,2018), new Heure(9,0), new Heure(9,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
 
+	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
+}
 
-	new RDV(new Date(12,12,2018), new Heure(12,10), new Heure(12,20), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
-	new RDV(new Date(10,12,2018), new Heure(10,10), new Heure(12,00), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
-	new RDV(new Date(12,10,2018), new Heure(6,0), new Heure(7,20), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
-	new RDV(new Date(12,10,2018), new Heure(5,0), new Heure(5,20), Etudiant::getEtudiants().front(), Entreprise::getEntreprises().front());
-	new RDV(new Date(12,10,2018), new Heure(9,0), new Heure(9,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
-
-	/*Etudiant::getEtudiants().front()->afficherRdv();
-	Entreprise::getEntreprises().front()->afficherRdv();
-	RDV::afficherRdv();
-	return 0;*/
+int main()
+{
+	remplirBDD();
 
 	int reponse = 0;
 	while(true)
