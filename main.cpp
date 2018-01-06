@@ -601,23 +601,78 @@ void GererRDV()
 void remplirBDD()
 {
 	// Ajout des diplomes possibles
+	new Diplome("BREVET");
 	new Diplome("BAC");
-
-	//  Ajout des Entreprises
-	new Entreprise("ubisoft", "somewhere", "paul", "060606060");
+	new Diplome("LICENCE");
+	new Diplome("MASTER");
 
 	// Ajout des Etudiants
 		// Ajout des diplomes aux étudiants
+		//  Ajout des Entreprises
+		// Ajouter des rendez-vous
 		// Ajout des experiences aux etudiants
 		// Ajout des inscriptions
-		// Ajouter des rendez-vous
 
-	new EtudiantCycle1(1,"Leclair","Robin","Limoges","06236545123", 2015, "Raoul Dautry", "S");
-		new Diplome(5,"BAC", new Date("5/07/2015"), "Dautry", Etudiant::getEtudiants().back());
-		new RDV(new Date(12,10,2018), new Heure(9,0), new Heure(9,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
+<<<<<<< HEAD
+	new EtudiantCycle1(1,"Dupont","Julie","Limoges","0615489562", 2015, "Raoul Dautry", "S");
+		new Diplome(1,"BAC", new Date("5/07/2015"), "Dautry", Etudiant::getEtudiants().back());
+		new Entreprise("Ubisoft", "Toulouse", "Paul", "0606060606");
+		new RDV(new Date(12,10,2017), new Heure(9,5), new Heure(9,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
+		new Experience(new Date(7,8,2012), new Date(7,12,2012) , "Chef de groupe", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(30,4,2012), 3, Diplome::searchByNom("BAC"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle1(2,"Dupond","Martin","Rennes","0651021484", 2015, "Limosin", "ES");
+		new Diplome(2,"BREVET", new Date("12/03/2012"), "Melbourt", Etudiant::getEtudiants().back());
+		new Entreprise("Samsung", "Paris", "Pierre", "0625301402");
+		new RDV(new Date(2,2,2017), new Heure(15,10), new Heure(15,25), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
+		new Experience(new Date(4,5,2012), new Date(7,6,2013) , "Chef de projet", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(26,3,2013), 2, Diplome::searchByNom("BREVET"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle1(3,"Depardeut","Gerard","Strasbourg","0748650141", 2015, "Saint Joseph", "L");
+		new Diplome(3,"LICENCE", new Date("13/10/2016"), "Juglai", Etudiant::getEtudiants().back());
+		new Entreprise("Electronic Arts", "Lyon", "Jacques", "0705159564");
+		new RDV(new Date(25,5,2017), new Heure(8,0), new Heure(8,15), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
+		new Experience(new Date(17,6,2012), new Date(17,12,2014) , "secretaire", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(3,12,2014), 1, Diplome::searchByNom("BAC"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle1(4,"Jerry","Justine","Marseille","0636051490", 2015, "Valadon", "STMG");
+		new Diplome(4,"MASTER", new Date("25/08/2017"), "Naruto", Etudiant::getEtudiants().back());
+		new Entreprise("Thales", "Bordeaux", "Marie", "0748956105");
+		new RDV(new Date(1,3,2017), new Heure(18,0), new Heure(19,0), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
+		new Experience(new Date(28,11,2012), new Date(7,10,2014) , "assistant ingenieur", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(18,11,2011), 4, Diplome::searchByNom("LICENCE"), Etudiant::getEtudiants().back() )
 
+	new EtudiantCycle2(5,"Jidor","Kylian","Lille","0615410231", "Info");
+		new Diplome(3,"LICENCE", new Date("8/12/1999"), "Valencien", Etudiant::getEtudiants().back());
+		new Entreprise("Dell", "Brest", "Thomas", "0102201012");
+		new RDV(new Date(3,3,2016), new Heure(6,0), new Heure(6,10), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
+		new Experience(new Date(2,12,2010), new Date(7,7,2015) , "stagiare", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(21,12,2012), 3, Diplome::searchByNom("MASTER"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle2(6,"Mushu","Mathilde","Rouen","0748956215", "SVT");
+		new Diplome(3,"LICENCE", new Date("5/10/2002"), "Grodes", Etudiant::getEtudiants().back());
+		new Entreprise("Niantic", "Auxerre", "John", "0663528577");
+		new RDV(new Date(10,6,2016), new Heure(13,0), new Heure(13,5), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
+		new Experience(new Date(3,9,2008), new Date(7,3,2011) , "alternant", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(4,1,2010), 5, Diplome::searchByNom("LICENCE"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle2(7,"Vades","Victor","Limoges","0630254777", "Mathematiques");
+		new Diplome(2,"BREVET", new Date("25/07/2012"), "Ferry", Etudiant::getEtudiants().back());
+		new Entreprise("Apple", "Dijon", "Manon", "0725140262");
+		new RDV(new Date(11,8,2016), new Heure(16,0), new Heure(16,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
+		new Experience(new Date(16,2,2007), new Date(7,5,2015) , "egerie", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(7,10,2012), 3, Diplome::searchByNom("BREVET"), Etudiant::getEtudiants().back() )
+		
+	new EtudiantCycle2(8,"Pluchon","Lea","Agen","0730514895", "Petite Enfance");
+		new Diplome(1,"BAC", new Date("5/07/2015"), "Jules", Etudiant::getEtudiants().back());
+		new Entreprise("Nokia", "La Rochelle", "Fabien", "0744559902");
+		new RDV(new Date(8,12,2016), new Heure(7,0), new Heure(7,12), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
+		new Experience(new Date(22,3,2001), new Date(7,12,2013) , "ingenieur", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
+		new Inscription(new Date(10,6,2013), 2, Diplome::searchByNom("MASTER"), Etudiant::getEtudiants().back() )	
+=======
 	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
 
+>>>>>>> master
 }
 
 int main()
