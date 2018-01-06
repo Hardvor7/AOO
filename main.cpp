@@ -667,8 +667,7 @@ void remplirBDD()
 		new Entreprise("Nokia", "La Rochelle", "Fabien", "0744559902");
 		new RDV(new Date(8,12,2016), new Heure(7,0), new Heure(7,12), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
 		new Experience(new Date(22,3,2001), new Date(7,12,2013) , "ingenieur", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
-		new Inscription(new Date(10,6,2013), 2, Diplome::searchByNom("MASTER"), Etudiant::getEtudiants().back() )
-		
+		new Inscription(new Date(10,6,2013), 2, Diplome::searchByNom("MASTER"), Etudiant::getEtudiants().back() )	
 }
 
 int main()
