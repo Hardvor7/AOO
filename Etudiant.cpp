@@ -27,7 +27,6 @@ Etudiant::Etudiant(int numero, const string& nom, const string& prenom, const st
 void Etudiant::inscrire(Inscription *inscription)
 {
 	this->inscription = inscription;
-	this->inscription->ajouterEtudiant(this);
 }
 
 void Etudiant::ajouterRdv(RDV *rdv)

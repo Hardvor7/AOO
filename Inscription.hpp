@@ -8,25 +8,23 @@ using namespace std;
 
 class Diplome;
 class Etudiant;
+class Date;
 
 class Inscription
 {
-	string premiere_inscription;
+	Date *datePemiereInscription;
 	int numeroAnnee;
 	Diplome *diplome;
-	vector<Etudiant*> etudiants;
+	Etudiant* etudiant;
 
 public:
-	Inscription(const string& premiere_inscription, int numeroAnnee, Diplome *diplome);
-
-	void ajouterEtudiant(Etudiant *etudiant) { etudiants.push_back(etudiant); }
+	Inscription(Date *datePemiereInscription, int numeroAnnee, Diplome *diplome, Etudiant *etudiant);
 
 	// Getters and Setters
-
 	int getNumeroAnnee() const { return numeroAnnee; }
+	Date* getPremiereInscription() const { return datePemiereInscription; }
 	Diplome* getDiplome() const { return diplome; }
-	const vector<Etudiant*>& getEtudiants() const { return etudiants; }
-	const string& getPremiereInscription() const { return premiere_inscription; }
+	Etudiant* getEtudiant() const { return etudiant; }
 };
 
 #endif

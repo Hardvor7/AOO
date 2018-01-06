@@ -37,7 +37,7 @@ Date::Date(const string& d, int dateCondition) // condition 1 : la date doit etr
 					break;
 
 				case 2:
-					if (value > 2017)
+					if (value > 2017 && value < 1950)
 						throw invalid_argument( "Année incorrect" );
 					break;
 				}
