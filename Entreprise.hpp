@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <stdio.h>
 
 using namespace std;
 
@@ -16,12 +17,14 @@ class Entreprise
 	string adresse;
 	string nomContact;
 	string telephoneContact;
-	list<RDV*> liste_rdv;
+	list<RDV*> liste_rdvs;
 
 public:
 	Entreprise(const string& nom, const string& adresse, const string& nomContact, const string& telephoneContact);
 	
-	void ajouterRdv(RDV* rdv) { liste_rdv.push_back(rdv); }
+	void ajouterRdv(RDV* rdv);
+	void supprimerRdv(RDV *rdv);
+	void afficherRdv();
 
 	// Static methods
 	static Entreprise* searchByNom(const string& nom);
@@ -33,7 +36,7 @@ public:
 	const string& getAdresse() const { return adresse; }
 	const string& getNomContact() const { return nomContact; }
 	const string& getTelephoneContact() const { return telephoneContact; }
-	const list<RDV*>& getListeRdv() const { return liste_rdv; }
+	const list<RDV*>& getListeRdvs() const { return liste_rdvs; }
 };
 
 #endif

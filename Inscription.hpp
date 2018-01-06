@@ -11,19 +11,19 @@ class Etudiant;
 
 class Inscription
 {
-	int annee;
 	string premiere_inscription;
+	int numeroAnnee;
 	Diplome *diplome;
 	vector<Etudiant*> etudiants;
 
 public:
-	Inscription(const string& premiere_inscription, int annee, Diplome *diplome);
+	Inscription(const string& premiere_inscription, int numeroAnnee, Diplome *diplome);
 
 	void ajouterEtudiant(Etudiant *etudiant) { etudiants.push_back(etudiant); }
 
 	// Getters and Setters
 
-	int getAnnee() const { return annee; }
+	int getNumeroAnnee() const { return numeroAnnee; }
 	Diplome* getDiplome() const { return diplome; }
 	const vector<Etudiant*>& getEtudiants() const { return etudiants; }
 	const string& getPremiereInscription() const { return premiere_inscription; }

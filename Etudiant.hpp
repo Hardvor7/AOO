@@ -1,11 +1,11 @@
 #ifndef ETUDIANT_HPP
 #define ETUDIANT_HPP
-#define ETUDIANT_TYPE 0
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <list>
+#include <stdio.h>
 
 using namespace std;
 
@@ -26,7 +26,7 @@ class Etudiant
 	Inscription *inscription;
 	vector<Diplome*> diplomes;
 	vector<Experience*> experiences;
-	list<RDV*> liste_rdv;
+	list<RDV*> liste_rdvs;
 
 
 public:
@@ -34,11 +34,9 @@ public:
 	virtual ~Etudiant() { }
 
 	void inscrire(Inscription *_inscription);
-	void afficherRDV();
-
-	void ajouterRdv(RDV *rdv) { liste_rdv.push_back(rdv); }
-
-	virtual int getClassType() { return ETUDIANT_TYPE; }
+	void ajouterRdv(RDV *rdv);
+	void supprimerRdv(RDV *rdv);
+	void afficherRdv();
 
 	// Static methods
 	static bool existe(int numero);
@@ -55,7 +53,7 @@ public:
 	Inscription* getInscription() const { return inscription; }
 	const vector<Diplome*>& getDiplomes() const { return diplomes; }
 	const vector<Experience*>& getExperiences() const { return experiences; }
-	const list<RDV*>& getListeRdv() const { return liste_rdv; }
+	const list<RDV*>& getListeRdvs() const { return liste_rdvs; }
 };
 
 #endif

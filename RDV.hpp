@@ -29,12 +29,13 @@ class RDV
 public:
 	RDV(Date *date, Heure *heureDebut, Heure *heureFin, Etudiant *etudiant, Entreprise *entreprise);
 
-	void afficher();
-
+	void supprimerRdv();
 	bool operator<(RDV rdv);
+	bool operator==(RDV rdv);
 	
 	// Getters and Setters
-	static list<RDV*>& getRdVs() { return liste_rdvs; }
+	static list<RDV*>& getRdvs() { return liste_rdvs; }
+	static void afficherRdv();
 
 	Date* getDate() const { return date; }
 	Heure* getHeureDebut() const { return heureDebut; }
