@@ -18,6 +18,7 @@ class Etudiant
 {
 	static list<Etudiant*> liste_etudiants;
 
+protected:
 	int numero;
 	string nom;
 	string prenom;

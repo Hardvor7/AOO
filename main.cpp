@@ -617,6 +617,7 @@ void remplirBDD()
 		new RDV(new Date(12,10,2018), new Heure(9,0), new Heure(9,20), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().front());
 
 	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
+
 }
 
 int main()
