@@ -613,7 +613,6 @@ void remplirBDD()
 		// Ajout des experiences aux etudiants
 		// Ajout des inscriptions
 
-<<<<<<< HEAD
 	new EtudiantCycle1(1,"Dupont","Julie","Limoges","0615489562", 2015, "Raoul Dautry", "S");
 		new Diplome(1,"BAC", new Date("5/07/2015"), "Dautry", Etudiant::getEtudiants().back());
 		new Entreprise("Ubisoft", "Toulouse", "Paul", "0606060606");
@@ -669,10 +668,6 @@ void remplirBDD()
 		new RDV(new Date(8,12,2016), new Heure(7,0), new Heure(7,12), Etudiant::getEtudiants().back(), Entreprise::getEntreprises().back());
 		new Experience(new Date(22,3,2001), new Date(7,12,2013) , "ingenieur", Entreprise::getEntreprises().back() , Etudiant::getEtudiants().back() )
 		new Inscription(new Date(10,6,2013), 2, Diplome::searchByNom("MASTER"), Etudiant::getEtudiants().back() )	
-=======
-	new EtudiantCycle2(5,"Brault","Pierre-Louis","Limoges","0623654532", "info");
-
->>>>>>> master
 }
 
 int main()
