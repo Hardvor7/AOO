@@ -5,25 +5,25 @@ main.o: main.cpp
 	g++ -std=c++14 -c main.cpp
 
 diplome.o: Diplome.cpp Diplome.hpp
-	g++ -std=c++14 -c diplome.cpp
+	g++ -std=c++14 -c Diplome.cpp
 
-inscription.o: inscription.cpp inscription.hpp
-	g++ -std=c++14 -c inscription.cpp
+inscription.o: Inscription.cpp Inscription.hpp
+	g++ -std=c++14 -c Inscription.cpp
 
 experience.o: Experience.cpp Experience.hpp
-	g++ -std=c++14 -c experience.cpp
+	g++ -std=c++14 -c Experience.cpp
 
 rdv.o: Rdv.cpp Rdv.hpp
-	g++ -std=c++14 -c rdv.cpp
+	g++ -std=c++14 -c Rdv.cpp
 
 entreprise.o: Entreprise.cpp Entreprise.hpp
-	g++ -std=c++14 -c entreprise.cpp
+	g++ -std=c++14 -c Entreprise.cpp
 
 dateheure.o: DateHeure.cpp DateHeure.hpp
 	g++ -std=c++14 -c DateHeure.cpp
 
 etudiant.o: Etudiant.cpp Etudiant.hpp
-	g++ -std=c++14 -c etudiant.cpp
+	g++ -std=c++14 -c Etudiant.cpp
 
 etudiantcycle1.o: EtudiantCycle1.cpp EtudiantCycle1.hpp
 	g++ -std=c++14 -c EtudiantCycle1.cpp
