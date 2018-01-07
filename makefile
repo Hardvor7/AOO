@@ -33,3 +33,4 @@ etudiantcycle2.o: EtudiantCycle2.cpp EtudiantCycle2.hpp
 	
 clean:
 	rm *.o main
+	
