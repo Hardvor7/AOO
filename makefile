@@ -7,7 +7,7 @@ main.o: main.cpp
 diplome.o: Diplome.cpp Diplome.hpp
 	g++ -std=c++14 -c diplome.cpp
 
-inscription.o: inscription.cpp inscription.hpp
+inscription.o: Inscription.cpp Inscription.hpp
 	g++ -std=c++14 -c inscription.cpp
 
 experience.o: Experience.cpp Experience.hpp
