@@ -32,5 +32,5 @@ EtudiantCycle2.o: EtudiantCycle2.cpp EtudiantCycle2.hpp
 	g++ -std=c++14 -c EtudiantCycle2.cpp
 	
 clean:
-	rm *.o main
+	rm *.o logicielREE
 	
