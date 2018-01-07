@@ -1,4 +1,4 @@
-main: main.o Diplome.o Inscription.o Experience.o RDV.o Entreprise.o DateHeure.o Etudiant.o EtudiantCycle1.o EtudiantCycle2.o
+logicielREE: main.o Diplome.o Inscription.o Experience.o RDV.o Entreprise.o DateHeure.o Etudiant.o EtudiantCycle1.o EtudiantCycle2.o
 	g++ -std=c++14 -o logicielREE main.o Diplome.o Inscription.o Experience.o RDV.o Entreprise.o DateHeure.o Etudiant.o EtudiantCycle1.o EtudiantCycle2.o
 
 main.o: main.cpp 
