@@ -28,6 +28,10 @@ void RDV::supprimerRdv()
 	etudiant->supprimerRdv(this);
 	entreprise->supprimerRdv(this);
 	liste_rdvs.remove(this);
+	delete date;
+	delete heureDebut;
+	delete heureFin;
+	delete this;
 }
 
 void RDV::ajoutComparatifRDV()

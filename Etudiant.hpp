@@ -32,7 +32,6 @@ protected:
 
 public:
 	Etudiant(int numero, const string& nom, const string& prenom, const string& adresse, const string& telephone);
-	virtual ~Etudiant() { }
 
 	void inscrire(Inscription *_inscription);
 	void ajouterDiplome(Diplome *diplome);
