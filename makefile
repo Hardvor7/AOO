@@ -13,8 +13,8 @@ inscription.o: Inscription.cpp Inscription.hpp
 experience.o: Experience.cpp Experience.hpp
 	g++ -std=c++14 -c Experience.cpp
 
-rdv.o: Rdv.cpp Rdv.hpp
-	g++ -std=c++14 -c Rdv.cpp
+rdv.o: RDV.cpp RDV.hpp
+	g++ -std=c++14 -c RDV.cpp
 
 entreprise.o: Entreprise.cpp Entreprise.hpp
 	g++ -std=c++14 -c Entreprise.cpp
